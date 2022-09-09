@@ -57,13 +57,13 @@ I split the data of the 15 subjects into training, validation and testing to avo
 Subjects for training and validation has been permuted as I planned to use K-fold cross validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of the fold datasets.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/Dataset kfold.PNG">
+  <img alt="Game" title="Game" src="./Media/Dataset kfold.PNG" width="450">
 </p>
 
 Finally for each created Training dataset, I have chosen to discard incorrect data (example :  2s between 2 peaks is not biologically possible) due to malfunctioning of sensor creating troubles in the peak detection. I also have chosen to balance the data set to have 50\% of stress data and 50\% of non-stress data, to improve learning.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/balancing.PNG">
+  <img alt="Game" title="Game" src="./Media/balancing.PNG" width="450">
 </p>
 
 ## Model and Training
@@ -73,7 +73,7 @@ My model is a Full Connected Neural Network. Each Full Connected (FC) layer is f
 The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/Network.PNG">
+  <img alt="Game" title="Game" src="./Media/Network.PNG" width="450">
 </p>
 
 For each fold (of the 91-fold) the model has been trained with :
