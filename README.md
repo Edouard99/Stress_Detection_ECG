@@ -23,9 +23,10 @@ Among the measures, the dataset contains Electrocardiogram measures of 15 subjec
 
 ## Data Pre-Processing
 
-The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks <a href="./Dataset creator.ipynb">Dataset Creator.ipynb</a> (for Training dataset) \cite and Testing ds creator.ipynb (for testing dataset)
+The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks <a href="./Dataset creator.ipynb">Dataset Creator.ipynb</a> (for Training dataset) \cite and <a href="./Testing ds creator.ipynb">Testing ds creator.ipynb</a>(for testing dataset)
 
-I used HeartPy\cite to detect the ECG peaks in the signals. From the ECG signal I was able to extract features from 20s extract that appeared to be relevant in the WESAD paper.
+I used <a href="https://github.com/paulvangentcom/heartrate_analysis_python">HeartPy</a> to detect the ECG peaks in the signals. From the ECG signal I was able to extract features from 20s extract that appeared to be relevant in the WESAD paper [[1]](#1).
+ <center>
 
 | Features      |Units           |
 |:-------------:|:-------------:|
@@ -42,44 +43,46 @@ I used HeartPy\cite to detect the ECG peaks in the signals. From the ECG signal 
 |STD Fourier Frequencies | Hz|
 |Sum PSD components | None|
 
+</center>
 
-The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./Media/ECG.PNG">joined report</a> \cite. The computation is also detailled in the comments of the code.
+The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./Media/ECG.PNG">joined report</a>. The computation is also detailled in the comments of the code.
 
 The training has been done with a cross-validation process. I extracted features from samples of 20s with a 1s step from every recording, these samples were coupled with a label : 1=neutral ; 2=stress ; 3=amusement ; 4=meditation. As ECG is very person dependant, I selected a 90s of the baseline (neutral state), extracted the features and for every 20s sample I divided the features of the sample by the features of the baseline to have a comparison of the sample with a neutral moment from the baseline.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/features.PNG" width="450">
 </p>
 
 I split the data of the 15 subjects into training, validation and testing to avoid overfitting (as my features extracted from 20s samples with a sliding windows picking training and validation/testing data on a same subject would cause overfitting).
 Subjects for training and validation has been permuted as I planned to use K-fold cross validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of the fold datasets.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/Dataset kfold.PNG">
 </p>
 
 Finally for each created Training dataset, I have chosen to discard incorrect data (example :  2s between 2 peaks is not biologically possible) due to malfunctioning of sensor creating troubles in the peak detection. I also have chosen to balance the data set to have 50\% of stress data and 50\% of non-stress data, to improve learning.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/balancing.PNG">
 </p>
 
 ## Model and Training
 
-My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. The size of these layer decreases from 128 -> 64 -> 16 -> 4 -> 1. The final FC layer is followed by a Sigmoid function in order to obtain an output \APPARTIENT between [0;1]. 
+My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. The size of these layer decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function in order to obtain an output &#8712; [0;1]. 
 
-The input size is 12 and the output size is 1. An output > A GIVEN THRESHOLD is considered as a stress state.
+The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/Network.PNG">
 </p>
 
 For each fold (of the 91-fold) the model has been trained with :
---> Loss Function = Binary Cross Entropy
---> epochs = 15
---> batchsize = 32
---> learning rate = 0.0001
---> Optimizer = Adam(learning rate,beta1=0.9,beta2=0.999)
+
+&#8594; **Loss Function** = Binary Cross Entropy <br>
+&#8594; **Epochs** = 15 <br>
+&#8594; **Batchsize** = 32 <br>
+&#8594; **Learning rate** = 0.0001 <br>
+&#8594; **Optimizer** = Adam(learning rate,beta1=0.9,beta2=0.999) <br>
 
 For each fold training the best model has been saved (based on validation set loss value) to compute the results of the cross validation.
 
@@ -93,22 +96,19 @@ Confusion Matrix used :
 For the best model of each fold the two confusions matrixes are computed on the validation set and the average model confusion matrixes are computed.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/average model confusion.png">
 </p>
 
 From the best model of each fold these metrics have been computed on the validation set :
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
-</p>
-<p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
-</p>
-<p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
-</p>
-<p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/accuracy.png">
+</p><p align="center">
+  <img alt="Game" title="Game" src="./Media/precision.png">
+</p><p align="center">
+  <img alt="Game" title="Game" src="./Media/recall.png">
+</p><p align="center">
+  <img alt="Game" title="Game" src="./Media/f1score.png">
 </p>
 
 ## Testing Results
@@ -117,13 +117,13 @@ The model has been retrained with the same process on the complete cross validat
 The best model gives the following confusion matrixes:
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+  <img alt="Game" title="Game" src="./Media/testing confusion.png">
 </p>
 
-* Accuracy = 
-* Precision = 
-* Recall = 
-* F1 score = 
+* **Accuracy** = 0.957
+* **Precision** = 0.851
+* **Recall** = 1.00
+* **F1 score** = 0.920
 
 ## References
 <a id="1">[1]</a> Philip Schmidt et al. “Introducing WeSAD, a multimodal dataset for wearable stress and affect detection”. In: ICMI 2018 - Proceedings of the 2018 International Conference on Multimodal Interaction (Oct. 2018), pp. 400–408. doi: <a href="https://doi.org/10.1145/3242969.3242985">10.1145/3242969.3242985</a>.
