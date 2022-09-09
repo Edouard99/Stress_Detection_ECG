@@ -9,7 +9,7 @@
 
 ## Introduction
 
-This project aims to develop a deep learning model able to predict the emotional state (stress/no stress) of an individual based on its ElectroCardiogram signal. The model has been train on the WESAD dataset\cite <a href="https://archive.ics.uci.edu/ml/datasets/WESAD+%28Wearable+Stress+and+Affect+Detection%29">WESAD dataset</a>.
+This project aims to develop a deep learning model able to predict the emotional state (stress/no stress) of an individual based on its ElectroCardiogram signal. The model has been train on the WESAD dataset <a href="https://archive.ics.uci.edu/ml/datasets/WESAD+%28Wearable+Stress+and+Affect+Detection%29">WESAD dataset</a>.
 
 ## Dataset
 
