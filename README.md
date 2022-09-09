@@ -18,7 +18,7 @@ The WESAD is a dataset built by Schmidt P et al [[1]](#1) because there was no d
 Among the measures, the dataset contains Electrocardiogram measures of 15 subjects during 2hours with stressing, amusing, relaxing and neutral situation. The ECG is measured with an ECG sensor placed on the chest with a frequency of 700Hz. This is a 20s sample from the dataset:
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/ECG.PNG">
+  <img alt="ECG Sample" title="ECG Sample" src="./Media/ECG.PNG">
 </p>
 
 ## Data Pre-Processing
@@ -51,20 +51,20 @@ The exact computation of these features is detailled in the WESAD paper [[1]](#1
 The training has been done with a cross-validation process. I extracted features from samples of 20s with a 1s step from every recording, these samples were coupled with a label : 1=neutral ; 2=stress ; 3=amusement ; 4=meditation. As ECG is very person dependant, I selected a 90s of the baseline (neutral state), extracted the features and for every 20s sample I divided the features of the sample by the features of the baseline to have a comparison of the sample with a neutral moment from the baseline.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/features.PNG" >
+  <img alt="Features Extraction" title="Features Extraction" src="./Media/features.PNG" >
 </p>
 
 I split the data of the 15 subjects into training, validation and testing to avoid overfitting (as my features extracted from 20s samples with a sliding windows picking training and validation/testing data on a same subject would cause overfitting).
 Subjects for training and validation has been permuted as I planned to use K-fold cross validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of the fold datasets.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/Dataset kfold.PNG" >
+  <img alt="Kfold Datasets" title="Kfold Datasets" src="./Media/Dataset kfold.PNG" >
 </p>
 
 Finally for each created Training dataset, I have chosen to discard incorrect data (example :  2s between 2 peaks is not biologically possible) due to malfunctioning of sensor creating troubles in the peak detection. I also have chosen to balance the data set to have 50\% of stress data and 50\% of non-stress data, to improve learning.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/balancing.PNG" >
+  <img alt="Balancing Datasets" title="Balancing Datasets" src="./Media/balancing.PNG" >
 </p>
 
 ## Model and Training
@@ -74,7 +74,7 @@ My model is a Full Connected Neural Network. Each Full Connected (FC) layer is f
 The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/Network.PNG" >
+  <img alt="Neural Network Architecture" title="Neural Network Architecture" src="./Media/Network.PNG" >
 </p>
 
 For each fold (of the 91-fold) the model has been trained with :
@@ -97,19 +97,19 @@ Confusion Matrix used :
 For the best model of each fold the two confusions matrixes are computed on the validation set and the average model confusion matrixes are computed.
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/average model confusion.png">
+  <img alt="Average Model Confusion Matrix" title="Average Model Confusion Matrix" src="./Media/average model confusion.png">
 </p>
 
 From the best model of each fold these metrics have been computed on the validation set :
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/accuracy.png">
+  <img alt="Accuracy" title="Accuracy" src="./Media/accuracy.png">
 </p><p align="center">
-  <img alt="Game" title="Game" src="./Media/precision.png">
+  <img alt="Precision" title="Precision" src="./Media/precision.png">
 </p><p align="center">
-  <img alt="Game" title="Game" src="./Media/recall.png">
+  <img alt="Recall" title="Recall" src="./Media/recall.png">
 </p><p align="center">
-  <img alt="Game" title="Game" src="./Media/f1score.png">
+  <img alt="F1 Score" title="F1 Score" src="./Media/f1score.png">
 </p>
 
 The average metrics of my model are :
@@ -144,7 +144,7 @@ The model has been retrained with the same process on the complete cross validat
 The best model gives the following confusion matrixes for the testing set (Subject S17):
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/testing confusion.png">
+  <img alt="Confusion Matrix on Testing set" title="Confusion Matrix on Testing set" src="./Media/testing confusion.png">
 </p>
 
 * **Accuracy** = 0.957
