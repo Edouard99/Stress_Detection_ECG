@@ -18,7 +18,7 @@ The WESAD is a dataset built by Schmidt P et al [[1]](#1) because there was no d
 Among the measures, the dataset contains Electrocardiogram measures of 15 subjects during 2hours with stressing, amusing, relaxing and neutral situation. The ECG is measured with an ECG sensor placed on the chest with a frequency of 700Hz. This is a 20s sample from the dataset:
 
 <p align="center">
-  <img alt="Game" title="Game" src="./Media/ECG.PNG" width="600">
+  <img alt="Game" title="Game" src="./Media/ECG.PNG">
 </p>
 
 ## Data Pre-Processing
