@@ -46,7 +46,7 @@ I used <a href="https://github.com/paulvangentcom/heartrate_analysis_python">Hea
 
 </div>
 
-The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./Media/ECG.PNG">joined report</a>. The computation is also detailled in the comments of the code.
+The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./DataPreProcessing Detail.pdf">joined pdf</a>. The computation is also detailled in the comments of the code.
 
 The training has been done with a cross-validation process. I extracted features from samples of 20s with a 1s step from every recording, these samples were coupled with a label : 1=neutral ; 2=stress ; 3=amusement ; 4=meditation. As ECG is very person dependant, I selected a 90s of the baseline (neutral state), extracted the features and for every 20s sample I divided the features of the sample by the features of the baseline to have a comparison of the sample with a neutral moment from the baseline.
 
@@ -69,7 +69,7 @@ Finally for each created Training dataset, I have chosen to discard incorrect da
 
 ## Model and Training
 
-My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. The size of these layer decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function in order to obtain an output &#8712; [0;1]. 
+My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. <br> The size of these layer decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function in order to obtain an output &#8712; [0;1]. 
 
 The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
 
@@ -111,6 +111,32 @@ From the best model of each fold these metrics have been computed on the validat
 </p><p align="center">
   <img alt="Game" title="Game" src="./Media/f1score.png">
 </p>
+
+The average metrics of my model are :
+
+<div align="center">
+
+| Metrics      | Mean &#177; Std|
+|:-------------:|:-------------:|
+|Accuracy | 0.920 &#177; 0.06|
+|Precision| 0.804 &#177; 0.132|
+|Recall| 0.845 &#177; 0.183|
+|F1 score| 0.818 &#177; 0.148|
+
+</div>
+
+The WESAD paper [[1]](#1) best result on only ECG signals from chest (using Linear Discriminant Analysis) gives:
+
+<div align="center">
+
+| Metrics      | Mean Value|
+|:-------------:|:-------------:|
+|Accuracy | 0.8544|
+|F1 score| 0.8131|
+
+</div>
+
+My Deep Learning model has an accuracy increased by **6.56%** and an f1 score increased by **0.49%**.
 
 ## Testing Results
 
