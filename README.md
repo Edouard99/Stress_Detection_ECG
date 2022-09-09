@@ -26,7 +26,8 @@ Among the measures, the dataset contains Electrocardiogram measures of 15 subjec
 The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks <a href="./Dataset creator.ipynb">Dataset Creator.ipynb</a> (for Training dataset) \cite and <a href="./Testing ds creator.ipynb">Testing ds creator.ipynb</a>(for testing dataset)
 
 I used <a href="https://github.com/paulvangentcom/heartrate_analysis_python">HeartPy</a> to detect the ECG peaks in the signals. From the ECG signal I was able to extract features from 20s extract that appeared to be relevant in the WESAD paper [[1]](#1).
- <center>
+ 
+<div align="center">
 
 | Features      |Units           |
 |:-------------:|:-------------:|
@@ -43,7 +44,7 @@ I used <a href="https://github.com/paulvangentcom/heartrate_analysis_python">Hea
 |STD Fourier Frequencies | Hz|
 |Sum PSD components | None|
 
-</center>
+</div>
 
 The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./Media/ECG.PNG">joined report</a>. The computation is also detailled in the comments of the code.
 
