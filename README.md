@@ -23,7 +23,7 @@ Among the measures, the dataset contains Electrocardiogram measures of 15 subjec
 
 ## Data Pre-Processing
 
-The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks Dataset Creator.ipynb (for Training dataset) \cite and Testing ds creator.ipynb (for testing dataset)
+The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks <a href="./Dataset Creator.ipynb">Dataset Creator.ipynb</a> (for Training dataset) \cite and Testing ds creator.ipynb (for testing dataset)
 
 I used HeartPy\cite to detect the ECG peaks in the signals. From the ECG signal I was able to extract features from 20s extract that appeared to be relevant in the WESAD paper.
 
