@@ -141,7 +141,7 @@ My Deep Learning model has an accuracy increased by **6.56%** and an f1 score in
 ## Testing Results
 
 The model has been retrained with the same process on the complete cross validation dataset (training + validation) to be tested on new data (subject 17 data).
-The best model gives the following confusion matrixes:
+The best model gives the following confusion matrixes for the testing set (Subject S17):
 
 <p align="center">
   <img alt="Game" title="Game" src="./Media/testing confusion.png">
