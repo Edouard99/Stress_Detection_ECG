@@ -1,2 +1,129 @@
-# Stress_Detection_ECG
-This project aims to detect stress state based on Electrocardiogram signals (WESAD Dataset) analysis with a deep learning model. AAA
+## Table Of Contents
+* [Introduction](#introduction)
+* [Dataset](#dataset)
+* [Data Pre-Processing](#data-pre-processing)
+* [Model and Training](#model-and-training)
+* [Cross Validation Results](#cross-validation-results)
+* [Results on testing set](#results-on-testing-set)
+* [References](#references)
+
+## Introduction
+
+This project aims to develop a deep learning model able to predict the emotional state (stress/no stress) of an individual based on its ElectroCardiogram signal. The model has been train on the WESAD dataset\cite <a href="https://archive.ics.uci.edu/ml/datasets/WESAD+%28Wearable+Stress+and+Affect+Detection%29">WESAD dataset</a>.
+
+## Dataset
+
+The WESAD is a dataset built by Schmidt P et al [[1]](#1) because there was no dataset for stress detection with physiological at this time.
+
+Among the measures, the dataset contains Electrocardiogram measures of 15 subjects during 2hours with stressing, amusing, relaxing and neutral situation. The ECG is measured with an ECG sensor placed on the chest with a frequency of 700Hz. This is a 20s sample from the dataset:
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/ECG.PNG" width="600">
+</p>
+
+## Data Pre-Processing
+
+The Preprocessing of the data is done from the WESAD dataset raw data using the notebooks Dataset Creator.ipynb (for Training dataset) \cite and Testing ds creator.ipynb (for testing dataset)
+
+I used HeartPy\cite to detect the ECG peaks in the signals. From the ECG signal I was able to extract features from 20s extract that appeared to be relevant in the WESAD paper.
+
+| Features      |Units           |
+|:-------------:|:-------------:|
+|Mean Heart Rate | Beat/s|
+|STD Heart Rate | Beat/s|
+|TINN | s|
+|HRVindex | None|
+|\#NN50 | None|
+|pNN50 | None|
+|Mean HRV | s|
+|STD HRV | s|
+|RMS HRV | s|
+|Mean Fourier Frequencies | Hz|
+|STD Fourier Frequencies | Hz|
+|Sum PSD components | None|
+
+
+The exact computation of these features is detailled in the WESAD paper [[1]](#1) and in the <a href="./Media/ECG.PNG">joined report</a> \cite. The computation is also detailled in the comments of the code.
+
+The training has been done with a cross-validation process. I extracted features from samples of 20s with a 1s step from every recording, these samples were coupled with a label : 1=neutral ; 2=stress ; 3=amusement ; 4=meditation. As ECG is very person dependant, I selected a 90s of the baseline (neutral state), extracted the features and for every 20s sample I divided the features of the sample by the features of the baseline to have a comparison of the sample with a neutral moment from the baseline.
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+I split the data of the 15 subjects into training, validation and testing to avoid overfitting (as my features extracted from 20s samples with a sliding windows picking training and validation/testing data on a same subject would cause overfitting).
+Subjects for training and validation has been permuted as I planned to use K-fold cross validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of the fold datasets.
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+Finally for each created Training dataset, I have chosen to discard incorrect data (example :  2s between 2 peaks is not biologically possible) due to malfunctioning of sensor creating troubles in the peak detection. I also have chosen to balance the data set to have 50\% of stress data and 50\% of non-stress data, to improve learning.
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+## Model and Training
+
+My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. The size of these layer decreases from 128 -> 64 -> 16 -> 4 -> 1. The final FC layer is followed by a Sigmoid function in order to obtain an output \APPARTIENT between [0;1]. 
+
+The input size is 12 and the output size is 1. An output > A GIVEN THRESHOLD is considered as a stress state.
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+For each fold (of the 91-fold) the model has been trained with :
+--> Loss Function = Binary Cross Entropy
+--> epochs = 15
+--> batchsize = 32
+--> learning rate = 0.0001
+--> Optimizer = Adam(learning rate,beta1=0.9,beta2=0.999)
+
+For each fold training the best model has been saved (based on validation set loss value) to compute the results of the cross validation.
+
+## Cross Validation Results
+
+Confusion Matrix used :
+
+* A 2x2 confusion matrix with Stress/No stress as ground truth and Stress/No stress as prediction. This confusion matrix is computed from the validation set and the values in the confusion matrix represent a the % of the data of the validation set.
+* A 2x4 confusion matrix with Emotional state (Neutral,Stress,Amusement,Relax) as ground truth and Stress/No stress as prediction. This confusion matrix is computed from the validation set and the values in the confusion matrix represent a the % of the data of the validation set.
+
+For the best model of each fold the two confusions matrixes are computed on the validation set and the average model confusion matrixes are computed.
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+From the best model of each fold these metrics have been computed on the validation set :
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+## Testing Results
+
+The model has been retrained with the same process on the complete cross validation dataset (training + validation) to be tested on new data (subject 17 data).
+The best model gives the following confusion matrixes:
+
+<p align="center">
+  <img alt="Game" title="Game" src="./Media/game_Moment.jpg" width="450">
+</p>
+
+* Accuracy = 
+* Precision = 
+* Recall = 
+* F1 score = 
+
+## References
+<a id="1">[1]</a> Philip Schmidt et al. “Introducing WeSAD, a multimodal dataset for wearable stress and affect detection”. In: ICMI 2018 - Proceedings of the 2018 International Conference on Multimodal Interaction (Oct. 2018), pp. 400–408. doi: <a href="https://doi.org/10.1145/3242969.3242985">10.1145/3242969.3242985</a>.
