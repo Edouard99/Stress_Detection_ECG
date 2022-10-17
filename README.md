@@ -69,7 +69,7 @@ Finally for each created Training dataset, I have chosen to discard incorrect da
 
 ## Model and Training
 
-The training and results analysis of the model can be done using the notebooks <a href="./Pd_calissifer.ipynb">Pd_calissifer.ipynb</a>.
+The training and results analysis (for cross-validation) of the model can be done using the notebooks <a href="./Model.ipynb">Model.ipynb</a>.
 
 My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. <br> The size of these layer decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function in order to obtain an output &#8712; [0;1]. 
 
@@ -143,7 +143,7 @@ My Deep Learning model has an accuracy increased by **6.56%** and an f1 score in
 
 ## Testing Results
 
-The model has been retrained with the same process on the complete cross validation dataset (training + validation) to be tested on new data (subject 17 data).
+The model has been retrained with the same process on the complete cross validation dataset (training + validation) to be tested on new data (subject 17 data). This has been done in the notebooks <a href="./Model_test.ipynb">Model_test.ipynb</a>. 
 The best model gives the following confusion matrixes for the testing set (Subject S17):
 
 <p align="center">
