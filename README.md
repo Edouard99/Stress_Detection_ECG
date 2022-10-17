@@ -69,6 +69,8 @@ Finally for each created Training dataset, I have chosen to discard incorrect da
 
 ## Model and Training
 
+The training and results analysis of the model can be done using the notebooks <a href="./Pd_calissifer.ipynb">Pd_calissifer.ipynb</a>.
+
 My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. <br> The size of these layer decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function in order to obtain an output &#8712; [0;1]. 
 
 The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
