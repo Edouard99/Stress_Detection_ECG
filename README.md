@@ -89,6 +89,7 @@ For each fold training the best model has been saved (based on validation set lo
 
 ## Cross Validation Results
 
+The **threshhold value** (used to predict the emotionnal state from the output) is set to 0.5.
 Confusion Matrix used :
 
 * A 2x2 confusion matrix with Stress/No stress as ground truth and Stress/No stress as prediction. This confusion matrix is computed from the validation set and the values in the confusion matrix represent a the % of the data of the validation set.
