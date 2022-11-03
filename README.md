@@ -54,14 +54,14 @@ The training has been done with a cross-validation process. I extracted features
   <img alt="Features Extraction" title="Features Extraction" src="./Media/features.PNG" >
 </p>
 
-I split the data of the 15 subjects into training, validation, and testing to avoid overfitting (as my features extracted from 20s samples with a sliding window picking training and validation/testing data on the same subject would cause overfitting).
-Subjects for training and validation have been permuted as I planned to use K-fold cross-validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of the fold datasets.
+I split the data of the 15 subjects into training, validation, and testing to avoid overfitting (as my features are extracted from 20s samples with a sliding window picking training and validation/testing data on the same subject would cause overfitting).
+Subjects for training and validation have been permuted as I planned to use K-fold cross-validation (2 subjects in validation, 12 in training), so 91 possible datasets. I selected subject 17 to be my testing subject and I never included this subject in the creation of a fold dataset.
 
 <p align="center">
   <img alt="Kfold Datasets" title="Kfold Datasets" src="./Media/Dataset kfold.PNG" >
 </p>
 
-Finally, for each created Training dataset, I have chosen to discard incorrect data (for example :  2s between 2 peaks is not biologically possible) due to malfunctioning of the sensors creating troubles in the peak detection. I also have chosen to balance the data set to have 50\% of stress data and 50\% of non-stress data, to improve learning.
+Finally, for each created Training dataset, I have chosen to discard incorrect data (for example: 2s between 2 peaks is not biologically possible) due to malfunctioning of the sensors creating troubles in the peak detection. I also have chosen to balance the dataset with 50\% of stress data and 50\% of non-stress data, to improve learning.
 
 <p align="center">
   <img alt="Balancing Datasets" title="Balancing Datasets" src="./Media/balancing.PNG" >
@@ -71,7 +71,7 @@ Finally, for each created Training dataset, I have chosen to discard incorrect d
 
 The training and results analysis (for cross-validation) of the model can be done using the notebooks <a href="./Model.ipynb">Model.ipynb</a>.
 
-My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer and a LeakyRelu (a=0.2) layer. <br> The size of these layers decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function to obtain an output &#8712; [0;1]. 
+My model is a Full Connected Neural Network. Each Full Connected (FC) layer is followed by a Batch Normalization layer, a Dropout(p= 0.5) layer, and a LeakyRelu (a=0.2) layer. <br> The size of these layers decreases from 128 &#8594; 64 &#8594; 16 &#8594; 4 &#8594; 1. The final FC layer is followed by a Sigmoid function to obtain an output &#8712; [0;1]. 
 
 The input size is 12 and the output size is 1. An output > *a-given-threshold* is considered as a stress state.
 
@@ -79,7 +79,7 @@ The input size is 12 and the output size is 1. An output > *a-given-threshold* i
   <img alt="Neural Network Architecture" title="Neural Network Architecture" src="./Media/Network.PNG" >
 </p>
 
-For each fold (of the 91-fold) the model has been trained with :
+For each fold (of the 91-fold), the model has been trained with :
 
 &#8594; **Loss Function** = Binary Cross Entropy <br>
 &#8594; **Epochs** = 15 <br>
@@ -92,6 +92,7 @@ For each fold training, the best model has been saved (based on the validation s
 ## Cross Validation Results
 
 The **threshold value** (used to predict the emotional state from the output) is set to 0.5.
+
 Confusion Matrix used :
 
 * A 2x2 confusion matrix with Stress/No stress as the ground truth and Stress/No stress as the prediction. This confusion matrix is computed from the validation set and the values in the confusion matrix represent a percentage of the data of the validation set.
